@@ -4,18 +4,37 @@
 
     <div class="card">
         <div class="card-header">
-            @Model.Division.Name / @if(Model.Division.Department.Name != null) { <h5>@Model.Division.Department.Name</h5> }
-        </div>
-        <div class="card-body">
-            @foreach(var emp in Model.DivisionEmployeeList)
+            @Model.Division.Name /
+            @if (Model.Division.Department != null)
+            {
+                <h5>@Model.Division.Department.Name</h5>
+            }
+            else
             {
                 <p>
-                    <span class="badge badge-warning">
-                        @emp.Employee.Name
-                    </span>
+                    No Department
                 </p>
             }
         </div>
+        @if (Model.DivisionEmployeeList != null)
+        {
+            <div class="card-body">
+                @foreach (var emp in Model.DivisionEmployeeList)
+                {
+                    <p>
+                        <span class="badge badge-warning">
+                            @emp.Employee.Name
+                        </span>
+                    </p>
+                }
+            </div>
+        }
+        else
+        {
+            <p>
+                No Employee
+            </p>
+        }
     </div>
 
     <a asp-action="Index" class="btn btn-primary">

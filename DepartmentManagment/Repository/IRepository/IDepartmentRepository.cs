@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using DepartmentManagment.Models;
 using System.Threading.Tasks;
 
 namespace DepartmentManagment.Repository.IRepository
 {
-    public interface IDepartmentRepository
+    public interface IDepartmentRepository : IRepository<Department>
     {
+        Task UpdateAsync(Department item);
     }
 }

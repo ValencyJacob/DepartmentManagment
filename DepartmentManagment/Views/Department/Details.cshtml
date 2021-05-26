@@ -18,8 +18,10 @@
                     </h5>               
                     @for (int i = 0; i < Model.Divisions.Count; i++)
                     {
-                        <span class="badge badge-warning">
-                            @Model.Divisions[i].Name 
+                        <span class="badge badge-warning">                          
+                            <a asp-controller="division" asp-action="Details" asp-route-Id="@Model.Divisions[i].Id">
+                                @Model.Divisions[i].Name
+                            </a>
                         </span>
                     }
                 </footer>
