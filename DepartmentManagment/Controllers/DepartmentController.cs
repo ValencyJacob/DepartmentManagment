@@ -47,7 +47,7 @@ namespace DepartmentManagment.Controllers
                 return NotFound();
             }
 
-            return View(model);
+            return View(model); //ImageUrl is not null.
         }
 
         [HttpPost]
@@ -65,7 +65,7 @@ namespace DepartmentManagment.Controllers
                     var uploads = Path.Combine(webRootPath, @"images\department");
                     var extenstion = Path.GetExtension(files[0].FileName);
 
-                    if (item.ImageUrl != null) // NULL WHY!???
+                    if (item.ImageUrl != null) // ImageUrl is null (0_0)
                     {
                         // Update data with image
                         var imagePath = Path.Combine(webRootPath, item.ImageUrl.TrimStart('\\'));
