@@ -1,18 +1,20 @@
-﻿@model Division
+﻿@model EmployeeViewModel
 
 <div class="container">
 
     <div class="card">
         <div class="card-header">
-            @Model.Name
+            @Model.Division.Name / @if(Model.Division.Department.Name != null) { <h5>@Model.Division.Department.Name</h5> }
         </div>
         <div class="card-body">
-            <blockquote class="blockquote mb-0">
+            @foreach(var emp in Model.DivisionEmployeeList)
+            {
                 <p>
-                    Employee List RELEASE
+                    <span class="badge badge-warning">
+                        @emp.Employee.Name
+                    </span>
                 </p>
-                <footer class="blockquote-footer">Department: <cite title="Source Title">@Model.Department.Name</cite></footer>
-            </blockquote>
+            }
         </div>
     </div>
 

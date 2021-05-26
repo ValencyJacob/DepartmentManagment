@@ -80,7 +80,7 @@ namespace DepartmentManagment.Controllers
         [HttpGet]
         public async Task<IActionResult> Details(int id)
         {
-            
+            /*
             var model = await _db.Divisions.Include(x => x.Department)
                 .FirstOrDefaultAsync(x => x.Id == id);
 
@@ -92,7 +92,33 @@ namespace DepartmentManagment.Controllers
             {
                 return NotFound();
             }
-            
+            */
+
+            var model = new EmployeeViewModel
+            {
+                DivisionEmployeeList = await _db.DivisionEmployeesModel.Include(x => x.Employee).Include(x => x.Division.Department)
+                .Include(x => x.Division).Where(x => x.Division_Id == id).ToListAsync(),
+
+                DivisionEmployees = new DivisionEmployee()
+                {
+                    Division_Id = id
+                },
+
+                Division = await _db.Divisions.FirstOrDefaultAsync(x => x.Id == id)
+            };
+
+            List<int> tempAuthorsAssignedList = model.DivisionEmployeeList.Select(x => x.Employee_Id).ToList();
+
+            // Get all items who's Id isn't in tempAuthorsAssignedList and tempCitiesAssignedList
+            var tempEmployeesList = await _db.Employees.Where(x => !tempAuthorsAssignedList.Contains(x.Id)).ToListAsync();
+
+            model.DivisionEmployeeListDropDown = tempEmployeesList.Select(x => new SelectListItem
+            {
+                Text = x.Name,
+                Value = x.Id.ToString()
+            });
+
+            return View(model);
         }
 
         public async Task<IActionResult> Delete(int id)
