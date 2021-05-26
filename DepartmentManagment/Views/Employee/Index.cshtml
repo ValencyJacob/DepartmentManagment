@@ -1,53 +1,48 @@
-﻿@model IEnumerable<Division>
+﻿@model IEnumerable<Employee>
 
 <br />
 <br />
 <div class="border p-4 bg-white">
     <div class="row">
-        <div class="col-8">
-            <h2 class="text-info"> Division List</h2>
+        <div class="col-9">
+            <h2 class="text-info"> Employees </h2>
         </div>
 
-        <div class=" col-2 text-right">
+        <div class="col-3 text-right">
             <a asp-action="Upsert" class="btn btn-info form-control"> Add </a>
         </div>
     </div>
-    <br />
     <div>
         @if (Model.Count() > 0)
         {
             <table class="table table-striped border">
                 <tr class="table-secondary">
                     <th>
-                        Name
+                        Employee
                     </th>
                     <th>
-                        Department
+                        Role
                     </th>
                     <th></th>
                 </tr>
-                @foreach (var item in Model.OrderByDescending(x => x.Id))
+                @foreach (var item in Model)
                 {
                     <tr>
                         <td>
                             @item.Name
                         </td>
                         <td>
-                            @item.Department.Name
+                            @item.Role.Name
                         </td>
-                        
                         <td>
                             <a class="btn btn-primary text-white" asp-action="Upsert" asp-route-Id="@item.Id">
                                 Edit
                             </a>
-                            <a class="btn btn-info text-white" asp-action="Details" asp-route-Id="@item.Id">
+                            <a class="btn btn-primary text-white" asp-action="Details" asp-route-Id="@item.Id">
                                 Details
                             </a>
                             <a class="btn btn-danger text-white" asp-action="Delete" asp-route-Id="@item.Id">
                                 Delete
-                            </a>
-                            <a class="btn btn-success text-white" asp-action="ManageEmployees" asp-route-Id="@item.Id">
-                                Employees
                             </a>
                         </td>
                     </tr>
@@ -56,8 +51,7 @@
         }
         else
         {
-            <p>No publisher exists...</p>
+            <p>No data exists...</p>
         }
     </div>
 </div>
-

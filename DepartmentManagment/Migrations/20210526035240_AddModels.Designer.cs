@@ -4,14 +4,16 @@ using DepartmentManagment.Data;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
-namespace DepartmentManagment.Data.Migrations
+namespace DepartmentManagment.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20210526035240_AddModels")]
+    partial class AddModels
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -52,6 +54,59 @@ namespace DepartmentManagment.Data.Migrations
                     b.HasIndex("DepartmentId");
 
                     b.ToTable("Divisions");
+                });
+
+            modelBuilder.Entity("DepartmentManagment.Models.DivisionEmployee", b =>
+                {
+                    b.Property<int>("Employee_Id")
+                        .HasColumnType("int");
+
+                    b.Property<int>("Division_Id")
+                        .HasColumnType("int");
+
+                    b.HasKey("Employee_Id", "Division_Id");
+
+                    b.HasIndex("Division_Id");
+
+                    b.ToTable("DivisionEmployeesModel");
+                });
+
+            modelBuilder.Entity("DepartmentManagment.Models.Employee", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("RoleId");
+
+                    b.ToTable("Employees");
+                });
+
+            modelBuilder.Entity("DepartmentManagment.Models.EmployeeRole", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int")
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<int>("EmployeeId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("EmployeeRoles");
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -265,6 +320,36 @@ namespace DepartmentManagment.Data.Migrations
                     b.Navigation("Department");
                 });
 
+            modelBuilder.Entity("DepartmentManagment.Models.DivisionEmployee", b =>
+                {
+                    b.HasOne("DepartmentManagment.Models.Division", "Division")
+                        .WithMany()
+                        .HasForeignKey("Division_Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("DepartmentManagment.Models.Employee", "Employee")
+                        .WithMany()
+                        .HasForeignKey("Employee_Id")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Division");
+
+                    b.Navigation("Employee");
+                });
+
+            modelBuilder.Entity("DepartmentManagment.Models.Employee", b =>
+                {
+                    b.HasOne("DepartmentManagment.Models.EmployeeRole", "Role")
+                        .WithMany("Employee")
+                        .HasForeignKey("RoleId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Role");
+                });
+
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<string>", b =>
                 {
                     b.HasOne("Microsoft.AspNetCore.Identity.IdentityRole", null)
@@ -319,6 +404,11 @@ namespace DepartmentManagment.Data.Migrations
             modelBuilder.Entity("DepartmentManagment.Models.Department", b =>
                 {
                     b.Navigation("Divisions");
+                });
+
+            modelBuilder.Entity("DepartmentManagment.Models.EmployeeRole", b =>
+                {
+                    b.Navigation("Employee");
                 });
 #pragma warning restore 612, 618
         }

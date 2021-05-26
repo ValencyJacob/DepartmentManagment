@@ -1,13 +1,13 @@
-﻿@model DivisionViewModel
+﻿@model RoleViewModel
 
 @{
-    var title = "Create Division";
+    var title = "Add";
 }
 <form method="post">
     <div class="row p-3 border">
         <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-        <input type="hidden" asp-for="Division.Id" />
-        @if (Model.Division != null)
+        <input type="hidden" asp-for="Employee.Id" />
+        @if (Model.Employee != null)
         {
             //edit
             title = "Edit";
@@ -21,29 +21,29 @@
 
             <div class="form-group row">
                 <div class="col-4">
-                    <label asp-for="Division.Name"></label>
+                    <label asp-for="Employee.Name"></label>
                 </div>
                 <div class="col-8">
-                    <input asp-for="Division.Name" class="form-control" />
-                    <span asp-validation-for="Division.Name" class="text-danger"></span>
+                    <input asp-for="Employee.Name" class="form-control" />
+                    <span asp-validation-for="Employee.Name" class="text-danger"></span>
                 </div>
             </div>
 
             <div class="form-group row">
                 <div class="col-4">
-                    <label asp-for="Division.DepartmentId"></label>
+                    <label asp-for="Employee.RoleId"></label>
                 </div>
                 <div class="col-8">
-                    @Html.DropDownListFor(u => u.Division.DepartmentId, Model.DepartmentList, "--Department--",
+                    @Html.DropDownListFor(u => u.Employee.RoleId, Model.RoleList, "--Role--",
                         new { @class = "form-control" })
-                    <span asp-validation-for="Division.DepartmentId" class="text-danger"></span>
+                    <span asp-validation-for="Employee.RoleId" class="text-danger"></span>
                 </div>
             </div>
 
             <div class="form-group row">
 
                 <div class="col-4 offset-4">
-                    @if (Model.Division == null)
+                    @if (Model.Employee == null)
                     {
                         <button type="submit" class="btn btn-primary form-control">Create</button>
                     }

@@ -1,0 +1,63 @@
+﻿@model EmployeeViewModel
+
+<div class="container p-3 border">
+    <div class="row">
+        <div class="col-6 form-group">
+            <form method="post" action="ManageAuthors" class="row">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <input type="hidden" asp-for="Division.Id" />
+                <input type="hidden" asp-for="DivisionEmployees.Division_Id" />
+
+                <div class="col-4">
+                    <label asp-for="Division.Name"></label>
+                </div>
+                <div class="col-8">
+                    <input type="text" asp-for="Division.Name" class="form-control" disabled />
+                </div>
+                <div class="col-4 pt-3">
+                    <label asp-for="DivisionEmployees.Employee.Name"></label>
+                </div>
+                <div class="col-8">
+                    @Html.DropDownListFor(u => u.DivisionEmployees.Employee_Id, Model.DivisionEmployeeListDropDown, "--Select Employees--",
+                        new { @class = "form-control" })
+                </div>
+
+                <div class="col-4 offset-4">
+                    <button type="submit" class="btn btn-primary form-control">Add</button>
+                </div>
+                <div class="col-4">
+                    <a asp-action="Index" class="btn btn-success form-control">Back to List</a>
+                </div>
+            </form>
+        </div>
+        <div class="col-6">
+
+            <form method="post" action="RemoveAuthors">
+                <input type="hidden" asp-for="@Model.Division.Id" />
+                <div class="row text-right">
+                    <div class="col-12 text-right h4 text-primary">
+                        Employee Associated to this Division:
+                    </div>
+                </div>
+                @foreach (var item in Model.DivisionEmployeeList)
+                {
+
+                    <div class="row pb-2">
+                        <div class="col-8 text-right" style="font-size:23px;">@item.Employee.Name</div>
+                        <div class="col-4">
+                            <button asp-action="RemoveEmployees" type="submit" class="btn btn-danger form-control" asp-route-id="@item.Employee_Id">Remove</button>
+                        </div>
+                    </div>
+                }
+            </form>
+
+
+        </div>
+    </div>
+
+</div>
+
+
+@section Scripts{
+    <partial name="_ValidationScriptsPartial" />
+}
